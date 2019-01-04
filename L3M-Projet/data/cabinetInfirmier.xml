@@ -167,5 +167,5 @@
                 </visite>
                 
         </patient>
-        </patients>
+        <patient><nom>ee</nom><prénom>marc</prénom><numéro>0</numéro><sexe>F</sexe><naissance></naissance><visite date="2014-12-08"/><adresse><étage></étage><numéro></numéro><rue></rue><ville></ville><codePostal></codePostal></adresse></patient></patients>
     </cabinet>

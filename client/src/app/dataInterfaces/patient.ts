@@ -6,5 +6,5 @@ export interface PatientInterface {
   nom: string;
   sexe: sexeEnum;
   numéroSécuritéSociale: string;
-  adresse: Adresse;
+  adresse: string;
 }

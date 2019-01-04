@@ -1,7 +1,7 @@
 import { Adresse } from './dataInterfaces/adresse';
 import { InfirmierInterface } from './dataInterfaces/infirmier';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import { CabinetInterface } from './dataInterfaces/cabinet';
 import { PatientInterface } from './dataInterfaces/patient';
 import { sexeEnum } from './dataInterfaces/sexe';
@@ -94,6 +94,29 @@ export class CabinetMedicalService {
       numéro      : (node = root.querySelector("adresse > numéro")    ) ? node.textContent                    : "",
       étage       : (node = root.querySelector("adresse > étage")     ) ? node.textContent                    : "",
     };
+  }
+
+
+  public async addPatient(patient: PatientInterface): Promise<PatientInterface> {
+    const res = await this._http.post('/addPatient', {
+      patientName: patient.nom,
+      patientForname: patient.prénom,
+      patientNumber: patient.numéroSécuritéSociale,
+      patientSex: patient.sexe === sexeEnum.M ? 'M' : 'F',
+      patientBirthday: 'AAAA-MM-JJ',
+      patientFloor: patient.adresse.étage,
+      patientStreetNumber: patient.adresse.numéro,
+      patientStreet: patient.adresse.rue,
+      patientPostalCode: patient.adresse.codePostal,
+      patientCity: patient.adresse.ville
+    }, {observe: 'response'}).toPromise<HttpResponse<any>>();
+
+    console.log('Add patient renvoie', res);
+    if (res.status === 200) {
+      // OK on peut ajouter en local
+      return patient;
+    }
+    return null;
   }
 
 }
