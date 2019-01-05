@@ -1,0 +1,25 @@
+<mat-card>
+<h3>{{ getInfirmierFullName() }}</h3>
+  <img class="imginfi" mat-card-image src="http://localhost:8090/data/{{this.infirmier.photo}}" alt="Photo of a Shiba Inu">
+<p>{{ getFullAddress() }}</p>
+  <p>Liste des patients</p>
+
+
+  <mat-accordion>
+    <mat-expansion-panel >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Ma liste de patient
+        </mat-panel-title>
+        <mat-panel-description>
+         {{ this.infirmier.patients.length}} patient(s) associés
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-patient *ngFor="let patient of this.infirmier.patients" [patient]="patient"></app-patient>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+
+
+</mat-card>

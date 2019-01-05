@@ -1,0 +1,12 @@
+<div class="patientContainer">
+  <h3>{{ getFullName() }}</h3>
+  <p>Sexe : {{ this.patient.sexe==1?'Femme':'Homme'}}</p>
+  <p>Numero Secu : {{ getNumSecu() }}</p>
+  <p>Changer infirmier : </p>
+  <mat-select [(value)]="selected" *ngIf="cabinet.infirmiers" placeholder="Choisir l'infirmier">
+    <mat-option *ngFor="let infirmier of cabinet.infirmiers" [value]="infirmier.id">
+      {{ getFullNameInfirmier(infirmier)}}
+    </mat-option>
+  </mat-select>
+  <button mat-button (click)="reaffecterPatient(infirmierChoosen)">Réaffecter le patient</button>
+</div>

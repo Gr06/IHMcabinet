@@ -5,13 +5,23 @@ import {HttpClient, HttpResponse} from '@angular/common/http';
 import { CabinetInterface } from './dataInterfaces/cabinet';
 import { PatientInterface } from './dataInterfaces/patient';
 import { sexeEnum } from './dataInterfaces/sexe';
+import {Observable, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CabinetMedicalService {
+  get cabinet(): CabinetInterface {
+    return this._cabinet;
+  }
+
+  set cabinet(value: CabinetInterface) {
+    this._cabinet = value;
+  }
 
   private _cabinet: CabinetInterface;
+
+
 
   private _http: HttpClient;
   public get http(): HttpClient { return this._http; }
@@ -97,8 +107,8 @@ export class CabinetMedicalService {
   }
 
 
-  public async addPatient(patient: PatientInterface): Promise<PatientInterface> {
-    const res = await this._http.post('/addPatient', {
+  addPatient(patient: PatientInterface){
+    const res = this._http.post('/addPatient', {
       patientName: patient.nom,
       patientForname: patient.prénom,
       patientNumber: patient.numéroSécuritéSociale,
@@ -109,14 +119,25 @@ export class CabinetMedicalService {
       patientStreet: patient.adresse.rue,
       patientPostalCode: patient.adresse.codePostal,
       patientCity: patient.adresse.ville
-    }, {observe: 'response'}).toPromise<HttpResponse<any>>();
+    }, {observe: 'response'});
 
-    console.log('Add patient renvoie', res);
-    if (res.status === 200) {
-      // OK on peut ajouter en local
-      return patient;
-    }
-    return null;
+
+    return res;
+  }
+
+  affPatient(infirmierId, patient: PatientInterface) {
+    const res = this._http.post( "/affectation", {
+      infirmier: infirmierId,
+      patient: patient.numéroSécuritéSociale},
+      {observe: 'response'});
+    return res;
+  }
+
+  public async desaffPatient(patient: PatientInterface) {
+    const res = await this._http.post( "/affectation", {
+      infirmier: "none",
+      patient: patient.numéroSécuritéSociale},
+      {observe: 'response'}).subscribe();
   }
 
 }
