@@ -3,10 +3,50 @@
 
 
 .imginfi {
-  width:100px!important;
+
 }
 
 
 .patientContainer {
   width: 100%!important;
+}
+
+html {
+  background-color: rgb(250,250,250);
+  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+
+.mat-card-avatar {
+  border-radius: 0!important;
+  overflow: hidden!important;
+  height : 60px!important;
+}
+
+.mat-card-image {
+  margin-top : 0px!important;
+  width : 100%!important;
+  margin : 0px!important;
+}
+
+.mat-card.patient {
+  background-color: #f4f4ff;
+  margin-bottom: 10px;
+}
+
+.mat-card.infirmier {
+  margin-bottom: 10px;
+}
+
+mat-card-header-text.patient {
+  margin-left: 0px!important;
+}
+.mat-select.choixInfirmier {
+  width : 150px!important;
+}
+
+.sign {
+  font-family: Roboto;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 30px;
 }

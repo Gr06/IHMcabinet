@@ -1,7 +1,14 @@
+<input #nom matInput placeholder="Nom" value="">
+<input #prenom matInput placeholder="Prénom" value="">
+<input #sexe matInput placeholder="Name" value="">
+<input #numeroSecu matInput placeholder="Numéro sécurité sociale" value="">
+<input #ville matInput placeholder="Ville" value="">
+<input #codePostal matInput placeholder="Code postal" value="">
+<input #rue matInput placeholder="Rue" value="">
+<input #numero matInput placeholder="Numéro" value="">
+<input #etage matInput placeholder="Etage" value="">
 
 
-<input #name matInput placeholder="Name" value="">
 
-
-
-<button (click)="ajouterPatient(name.value)" mat-button>Ajouter</button>
+<button (click)="ajouterPatient(nom.value,prenom.value,sexe.value,numeroSecu.value,
+ville.value,codePostal.value,rue.value,numero.value, etage.value)" mat-button>Ajouter</button>

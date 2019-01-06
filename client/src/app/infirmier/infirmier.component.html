@@ -1,25 +1,28 @@
-<mat-card>
-<h3>{{ getInfirmierFullName() }}</h3>
-  <img class="imginfi" mat-card-image src="http://localhost:8090/data/{{this.infirmier.photo}}" alt="Photo of a Shiba Inu">
-<p>{{ getFullAddress() }}</p>
-  <p>Liste des patients</p>
+<mat-card class="infirmier" alx-dropzone (alx-ondrop)="affecterPatient($event)">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img class="imginfi" mat-card-image src="http://localhost:8090/data/{{this.infirmier.photo}}" alt="Photo de {{ getInfirmierFullName() }}">
+    </div>
+    <mat-card-title>{{ getInfirmierFullName() }}</mat-card-title>
+    <mat-card-subtitle>ID : {{infirmier.id}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class=".address" >
+      <p>{{ getFullAddress() }}</p>
+    </div>
 
-
-  <mat-accordion>
-    <mat-expansion-panel >
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Ma liste de patient
-        </mat-panel-title>
-        <mat-panel-description>
-         {{ this.infirmier.patients.length}} patient(s) associés
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <app-patient *ngFor="let patient of this.infirmier.patients" [patient]="patient"></app-patient>
-    </mat-expansion-panel>
-  </mat-accordion>
-
-
-
-
+    <mat-accordion>
+      <mat-expansion-panel >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Ma liste de patient
+          </mat-panel-title>
+          <mat-panel-description>
+           {{ this.infirmier.patients.length}} patient(s) associés
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-patient *ngFor="let patient of this.infirmier.patients" [patient]="patient"></app-patient>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
 </mat-card>

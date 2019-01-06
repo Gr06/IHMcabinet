@@ -59,4 +59,14 @@ export class SecretaryComponent implements OnInit {
   getPatientNonAffectes() {
     return this.cms.patientsNonAffectés;
   }
+
+  desaffecterPatient(event) {
+    this.cabinetMedicalService.desaffPatient(event.patient).subscribe((value => {
+      this.dialog.open(MessageComponent, {
+        width: '250px',
+        data: {message: 'Le patient a été désaffecté'}
+      });
+
+    }));
+  }
 }

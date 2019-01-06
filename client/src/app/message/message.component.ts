@@ -8,7 +8,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 })
 export class MessageComponent implements OnInit {
 
-
   message;
 
   constructor( public dialogRef: MatDialogRef<MessageComponent>,

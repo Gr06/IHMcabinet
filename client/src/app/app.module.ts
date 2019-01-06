@@ -9,7 +9,10 @@ import { AppComponent } from './app.component';
 import { SecretaryComponent } from './secretary/secretary.component';
 import { PatientComponent } from './patient/patient.component';
 import { AjoutPatientComponent } from './ajout-patient/ajout-patient.component';
+import { MessageComponent } from './message/message.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {DragDropModule} from "alx-dragdrop";
+
 import {
   MatButtonModule,
   MatCardModule,
@@ -18,8 +21,7 @@ import {
   MatInputModule,
   MatSelectModule
 } from "@angular/material";
-import { MessageComponent } from './message/message.component';
-import { NewclientComponent } from './newclient/newclient.component';
+
 
 @NgModule({
   declarations: [
@@ -28,8 +30,7 @@ import { NewclientComponent } from './newclient/newclient.component';
     InfirmierComponent,
     PatientComponent,
     AjoutPatientComponent,
-    MessageComponent,
-    NewclientComponent
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +43,8 @@ import { NewclientComponent } from './newclient/newclient.component';
     FormsModule,
     MatInputModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent],

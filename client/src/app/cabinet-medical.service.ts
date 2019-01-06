@@ -11,6 +11,7 @@ import {Observable, Subject} from "rxjs";
   providedIn: 'root'
 })
 export class CabinetMedicalService {
+
   get cabinet(): CabinetInterface {
     return this._cabinet;
   }
@@ -21,9 +22,8 @@ export class CabinetMedicalService {
 
   private _cabinet: CabinetInterface;
 
-
-
   private _http: HttpClient;
+
   public get http(): HttpClient { return this._http; }
 
   constructor( http: HttpClient ) {
@@ -73,7 +73,7 @@ export class CabinetMedicalService {
 
     // 3 Tableau des affectations à faire.
     const affectations = patientsXML.map( (P, i) => {
-      const visiteXML = P.querySelector( "visite[intervenant]" );
+      const visiteXML = P.querySelector( 'visite[intervenant]:not([intervenant=""])' );
       let infirmier: InfirmierInterface = null;
       if (visiteXML !== null) {
         infirmier = cabinet.infirmiers.find( I => I.id === visiteXML.getAttribute("intervenant") );
@@ -111,17 +111,16 @@ export class CabinetMedicalService {
     const res = this._http.post('/addPatient', {
       patientName: patient.nom,
       patientForname: patient.prénom,
-      patientNumber: patient.numéroSécuritéSociale,
       patientSex: patient.sexe === sexeEnum.M ? 'M' : 'F',
       patientBirthday: 'AAAA-MM-JJ',
+      patientNumber: patient.numéroSécuritéSociale,
       patientFloor: patient.adresse.étage,
       patientStreetNumber: patient.adresse.numéro,
       patientStreet: patient.adresse.rue,
       patientPostalCode: patient.adresse.codePostal,
       patientCity: patient.adresse.ville
     }, {observe: 'response'});
-
-
+    this.cabinet.patientsNonAffectés.push(patient);
     return res;
   }
 
@@ -130,14 +129,22 @@ export class CabinetMedicalService {
       infirmier: infirmierId,
       patient: patient.numéroSécuritéSociale},
       {observe: 'response'});
+    this.cabinet.patientsNonAffectés = this.cabinet.patientsNonAffectés.filter(p => p !== patient);
+    this.cabinet.infirmiers.forEach(infirmier => infirmier.patients = infirmier.patients.filter(p => p !== patient));
+    this.cabinet.infirmiers.forEach(infirmier => {if (infirmier.id === infirmierId)
+      infirmier.patients.push(patient);
+    });
     return res;
   }
 
-  public async desaffPatient(patient: PatientInterface) {
-    const res = await this._http.post( "/affectation", {
+  public desaffPatient(patient: PatientInterface) {
+    const res = this._http.post( "/affectation", {
       infirmier: "none",
       patient: patient.numéroSécuritéSociale},
-      {observe: 'response'}).subscribe();
+      {observe: 'response'});
+    this.cabinet.infirmiers.forEach(infirmier => infirmier.patients = infirmier.patients.filter(p => p !== patient));
+    this.cabinet.patientsNonAffectés.push(patient)
+    return res;
   }
 
 }
