@@ -1,5 +1,5 @@
 # IHMcabinet
-Projet IHM, L3 MIAGE 2018
+Projet IHM, L3 MIAGE 2018. La partie client se trouve dans le répertoire "client".
 
 # Ajouter un patient
 Formulaire accessible via la bouton "ajouter un patient" en haut de page.
