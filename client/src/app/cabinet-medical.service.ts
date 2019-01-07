@@ -107,6 +107,11 @@ export class CabinetMedicalService {
   }
 
 
+  /**
+   * Ajouter un patient
+   * @param patient
+   * @returns {Observable<HttpResponse<Object>>}
+   */
   addPatient(patient: PatientInterface){
     const res = this._http.post('/addPatient', {
       patientName: patient.nom,
@@ -124,6 +129,12 @@ export class CabinetMedicalService {
     return res;
   }
 
+  /**
+   * Affecter (ou réaffecter) un patient à un infirmier
+   * @param infirmierId
+   * @param patient
+   * @returns {Observable<HttpResponse<Object>>}
+   */
   affPatient(infirmierId, patient: PatientInterface) {
     const res = this._http.post( "/affectation", {
       infirmier: infirmierId,
@@ -137,6 +148,12 @@ export class CabinetMedicalService {
     return res;
   }
 
+
+  /**
+   * Désaffecter un patient, le patient devient un patient non affecté
+   * @param patient
+   * @returns {Observable<HttpResponse<Object>>}
+   */
   public desaffPatient(patient: PatientInterface) {
     const res = this._http.post( "/affectation", {
       infirmier: "none",

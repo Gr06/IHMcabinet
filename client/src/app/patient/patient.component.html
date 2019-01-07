@@ -1,4 +1,4 @@
-<mat-card class="patient" [alx-draggable]="{patient : this.patient}" (alx-drag-end)="affecterPatientById($event)">
+<mat-card class="patient" [alx-draggable]="{patient : this.patient}">
   <mat-card-header>
     <mat-card-title>{{ getFullName() }} ({{ this.patient.sexe==1?'F':'H'}})</mat-card-title>
     <mat-card-subtitle>ID : {{getNumSecu()}}</mat-card-subtitle>
@@ -7,13 +7,20 @@
     <p>{{getFullAddress()}}</p>
   </mat-card-content>
   <mat-card-actions>
-    <mat-select class="choixInfirmier" [(value)]="selected" *ngIf="cabinet.infirmiers" placeholder="Choisir l'infirmier">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
+    <mat-select formControlName="infirmier" class="choixInfirmier" [(value)]="selected" *ngIf="cabinet.infirmiers" placeholder="Choisir l'infirmier">
       <mat-option *ngFor="let infirmier of cabinet.infirmiers" [value]="infirmier.id">
         {{ getFullNameInfirmier(infirmier)}}
       </mat-option>
     </mat-select>
-    <button *ngIf="!getPatientNonAffectes().includes(patient)" mat-raised-button (click)="affecterPatient()">Réaffecter le patient</button>
-    <button *ngIf="getPatientNonAffectes().includes(patient)" mat-raised-button (click)="affecterPatient()">Affecter le patient</button>
+    <button [disabled]="userForm.invalid" *ngIf="!getPatientNonAffectes().includes(patient)" mat-raised-button (click)="affecterPatient()">Réaffecter le patient</button>
+    </form>
+    <form *ngIf="getPatientNonAffectes().includes(patient)" [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
+    <button [disabled]="userForm.invalid" mat-raised-button (click)="affecterPatient()">Affecter le patient</button>
+    </form>
     <button *ngIf="!getPatientNonAffectes().includes(patient)" mat-raised-button (click)="desaffecterPatient()">Désaffecter le patient</button>
+
+
   </mat-card-actions>
 </mat-card>
+

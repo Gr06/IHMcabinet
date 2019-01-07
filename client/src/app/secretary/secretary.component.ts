@@ -30,25 +30,13 @@ export class SecretaryComponent implements OnInit {
     this.patientsNonAff = this.cms.patientsNonAffectés;
   }
 
-  async addPatient(name: string) {
-    /*name = name.trim();
-    if (!name) { return; }
-    this.patient = {prénom: name, nom:name,sexe:1,numéroSécuritéSociale:"0",adresse: {}};
-    let lol = await this.cabinetMedicalService.addPatient(this.patient);
-    this._cms.patientsNonAffectés.push(this.patient);*/
-  }
-
-  async affPatient(infirmier, patient : PatientInterface) {
-    let lol = await this.cabinetMedicalService.affPatient(infirmier.id,patient);
-    this._cms.patientsNonAffectés.filter(p => p !== patient);
-    this._cms.infirmiers.map(x => {if (x.id===infirmier.id) x.patients.push(patient);})
-    //déplacer patient
-  }
-
   ngOnInit() {
 
   }
 
+  /**
+   * Afficher le formulaire d'ajout de patient
+   */
   ajouterNouveauPatient() {
       this.dialog.open(AjoutPatientComponent, {
         width: '450px'
@@ -56,17 +44,28 @@ export class SecretaryComponent implements OnInit {
 
   }
 
+  /**
+   * Retourner la liste des patients non affectés
+   * @returns {PatientInterface[]}
+   */
   getPatientNonAffectes() {
     return this.cms.patientsNonAffectés;
   }
 
+  /**
+   * Désaffecter un patient, le patient devient un patient non affecté
+   * @param event
+   */
   desaffecterPatient(event) {
-    this.cabinetMedicalService.desaffPatient(event.patient).subscribe((value => {
-      this.dialog.open(MessageComponent, {
-        width: '250px',
-        data: {message: 'Le patient a été désaffecté'}
-      });
+    if (event.patient) {
+      this.cabinetMedicalService.desaffPatient(event.patient).subscribe((value => {
+        this.dialog.open(MessageComponent, {
+          width: '250px',
+          data: {message: 'Le patient a été désaffecté'}
+        });
 
-    }));
+      }));
+    }
+    console.log(event);
   }
 }

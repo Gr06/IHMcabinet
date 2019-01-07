@@ -3,6 +3,9 @@ import {CabinetMedicalService} from "../cabinet-medical.service";
 import {PatientInterface} from "../dataInterfaces/patient";
 import {MessageComponent} from "../message/message.component";
 import {MatDialog, MatDialogRef} from "@angular/material";
+import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-ajout-patient',
@@ -11,18 +14,49 @@ import {MatDialog, MatDialogRef} from "@angular/material";
 })
 export class AjoutPatientComponent implements OnInit {
 
-  constructor(private cabinetMedicalService: CabinetMedicalService, public dialog: MatDialog, public dialogRef: MatDialogRef<AjoutPatientComponent>) { }
+  userForm: FormGroup;
 
-  ngOnInit() {
+  constructor(private formBuilder: FormBuilder, private cabinetMedicalService: CabinetMedicalService, public dialog: MatDialog, public dialogRef: MatDialogRef<AjoutPatientComponent>) {
+
   }
 
-  ajouterPatient(nom,prenom,sexe,numeroSecu, ville, codePostal, rue, numero, etage) {
-    const patient: PatientInterface= {prénom: prenom, nom:nom, sexe:sexe, numéroSécuritéSociale:numeroSecu, adresse: {
-        ville: ville,
-        codePostal: codePostal,
-        rue: rue,
-        numéro: numero,
-        étage: etage
+  ngOnInit() {
+    this.initForm();
+  }
+
+  /**
+   * Initialisation des validations du formulaire
+   */
+  initForm() {
+    this.userForm = this.formBuilder.group({
+      nom: ['',Validators.required],
+      prenom: ['',Validators.required],
+      sexe: ['',Validators.required],
+      numeroSecu: ['',Validators.required],
+      ville: ['',Validators.required],
+      codePostal: ['',Validators.required],
+      rue: ['',Validators.required],
+      etage: ['',Validators.required],
+      numero: ['',Validators.required]
+    });
+  }
+
+  /**
+   * Ajoute un patient à la soumission du formulaire
+   */
+  onSubmitForm() {
+    const formValue = this.userForm.value;
+    const patient: PatientInterface= {
+      prénom: formValue.prenom,
+      nom:formValue.nom,
+      sexe:formValue.sexe,
+      numéroSécuritéSociale:formValue.numeroSecu,
+      adresse: {
+        ville: formValue.ville,
+        codePostal: formValue.codePostal,
+        rue: formValue.rue,
+        numéro: formValue.numero,
+        étage: formValue.etage
       }};
     this.cabinetMedicalService.addPatient(patient).subscribe((value => {
       this.dialog.open(MessageComponent, {
@@ -31,6 +65,7 @@ export class AjoutPatientComponent implements OnInit {
       });
       this.dialogRef.close();
     }));
+    console.log(formValue);
   }
 
 }

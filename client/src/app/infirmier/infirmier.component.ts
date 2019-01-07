@@ -23,25 +23,38 @@ export class InfirmierComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Retourner le nom et prénom de l'infirmier
+   * @returns {string}
+   */
   getInfirmierFullName() {
     return this.infirmier.prénom+" "+this.infirmier.nom;
   }
 
+  /**
+   * Retourner numéro, rue, code postal et ville de l'infirmier
+   * @return {string}
+   */
   getFullAddress() {
     return this.infirmier.adresse.numéro+" "+this.infirmier.adresse.rue+"\n"+
       this.infirmier.adresse.codePostal+ " - " +this.infirmier.adresse.ville;
   }
 
-  // méthode appelée après un drag & drop
+
+  /**
+   * Affecter le patient donné en paramètre suite à un drag & drop
+   * @param event
+   */
   affecterPatient(event) {
-    this.cabinetService.affPatient(this.infirmier.id, event.patient).subscribe((value => {
-      this.dialog.open(MessageComponent, {
-        width: '250px',
-        data: {message: 'Le patient a été affecté'}
-      });
-
-    }));
+    if (event.patient) {
+      this.cabinetService.affPatient(this.infirmier.id, event.patient).subscribe((value => {
+        this.dialog.open(MessageComponent, {
+          width: '250px',
+          data: {message: 'Le patient a été affecté'}
+        });
+      }));
+    }
+    console.log(event);
   }
-
 
 }

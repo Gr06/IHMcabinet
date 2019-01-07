@@ -1,14 +1,42 @@
-<input #nom matInput placeholder="Nom" value="">
-<input #prenom matInput placeholder="Prénom" value="">
-<input #sexe matInput placeholder="Name" value="">
-<input #numeroSecu matInput placeholder="Numéro sécurité sociale" value="">
-<input #ville matInput placeholder="Ville" value="">
-<input #codePostal matInput placeholder="Code postal" value="">
-<input #rue matInput placeholder="Rue" value="">
-<input #numero matInput placeholder="Numéro" value="">
-<input #etage matInput placeholder="Etage" value="">
+<h4>Ajouter un patient</h4>
+<form [formGroup]="userForm" (ngSubmit)="onSubmitForm()">
 
+<mat-form-field>
+  <input #nom matInput placeholder="Nom" value="" class="form-control" required formControlName="nom">
+</mat-form-field>
+<mat-form-field>
+  <input required #prenom matInput placeholder="Prénom" value="" formControlName="prenom">
+</mat-form-field>
+<mat-radio-group class="example-radio-group" formControlName="sexe">
+  <mat-radio-button class="example-radio-button" value="0">
+    Homme
+  </mat-radio-button>
+  <mat-radio-button class="example-radio-button" value="1">
+    Femme
+  </mat-radio-button>
+</mat-radio-group>
+  <br/>
+<mat-form-field>
+  <input matInput required #numeroSecu matInput placeholder="Numéro sécurité sociale" value="" formControlName="numeroSecu">
+</mat-form-field>
 
+<h6>Adresse :</h6>
+<mat-form-field>
+<input matInput #ville matInput placeholder="Ville" value="" formControlName="ville">
+</mat-form-field>
+<mat-form-field>
+<input matInput #codePostal matInput placeholder="Code postal" value="" formControlName="codePostal">
+</mat-form-field>
+<mat-form-field>
+<input matInput #rue matInput placeholder="Rue" value="" formControlName="rue">
+</mat-form-field>
+<mat-form-field>
+<input matInput #numero matInput placeholder="Numéro" value="" formControlName="numero">
+</mat-form-field>
+<mat-form-field>
+<input matInput #etage matInput placeholder="Etage" value="" formControlName="etage">
+</mat-form-field>
 
-<button (click)="ajouterPatient(nom.value,prenom.value,sexe.value,numeroSecu.value,
-ville.value,codePostal.value,rue.value,numero.value, etage.value)" mat-button>Ajouter</button>
+<button class="submit-btn" type="submit" [disabled]="userForm.invalid" mat-button>Ajouter</button>
+
+</form>
